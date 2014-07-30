@@ -6,18 +6,20 @@
 package com.rockmatch {
 	import com.merlinds.debug.log;
 	import com.merlinds.launchers.BaseLauncher;
+	import com.rockmatch.game.Game;
 	import com.rockmatch.layout.Layout;
 	import com.rockmatch.layout.LayoutBaseType;
 	import com.rockmatch.preloader.GlobalPreloader;
-
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
-
 	import flash.events.Event;
 	import flash.utils.setTimeout;
-
+	
 	import net.hires.debug.Stats;
+	
+	import starling.core.Starling;
 
 	/** Application launcher **/
 	[SWF(frameRate=60, width=1024, height=768)]
@@ -40,22 +42,35 @@ package com.rockmatch {
 			this.addChild(_view);
 			//init frameworks and other things here
 			//start download sources
-			setTimeout(this.start, 3000);//для наглядности
+			setTimeout(this.initStarling, 100);//для наглядности
 			//initialize preloader
 			this.addEventListener(Event.ENTER_FRAME, timerHandler);
 		}
-
+		
+		private function initStarling():void 
+		{
+			var mStarling:Starling = new Starling(Game, stage);
+			mStarling.start();
+			setTimeout(this.start, 1000);//для наглядности
+		}
+	
+		private function startGame(event:Event):void
+		{
+			start();	
+		}
+		
 		override protected function start():void {
 			//all was initialized, hide preloader and start application
 			//TODO:	Use log, warning, error, instead of trace!
 			log(this, 'start');
+			
 			//для наглядности
-			var test:Shape = new Shape();
+			/*var test:Shape = new Shape();
 			test.graphics.beginFill(0xFF0000);
 			test.graphics.drawRect(100, 100, 200, 200);
 			test.graphics.endFill();
-			_view.addChild(test);
-
+			_view.addChild(test);*/
+			
 			super.start();
 		}
 		//} endregion PRIVATE\PROTECTED METHODS ========================================
